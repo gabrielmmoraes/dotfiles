@@ -51,6 +51,8 @@ rules:
      flash-on-focus: False
    - window-class: discord
      flash-on-focus: False
+   - window-class: Code
+     default-opacity: 0.97
 #
 #
 # I also would prefer that firefox windows are not flashed on focus:

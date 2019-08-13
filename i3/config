@@ -443,7 +443,7 @@ exec_always --no-startup-id pkill compton; sleep 0.1; compton -bs
 bindsym $mod+Shift+f exec --no-startup-id flash_window
 
 # Papel de parede
-exec_always wal -i ~/Pictures/wallpapers/sky.jpg
+exec_always wal -i ~/Pictures/wallpapers/floresta_vermelha.jpg
 
 # Polybar
 exec_always $HOME/.config/polybar/launch.sh

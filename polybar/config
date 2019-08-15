@@ -21,6 +21,14 @@
 ;background = #222
 background = #3c3836
 background-alt = #444
+;https://meyerweb.com/eric/tools/color-blend/#:::hex
+bottom-module-left1 = #4E423D
+bottom-module-left2 = #604D44
+bottom-module-left3 = #73574A
+bottom-module-left4 = #856251
+bottom-module-left5 = #976C58
+bottom-modules-foreground = #FFFFFF
+
 ;foreground = ${xrdb:color7:#222}
 foreground = #dfdfdf
 foreground-alt = #555
@@ -79,16 +87,15 @@ line-color = #f00
 ;border-color = #00000000
 
 padding-left = 0
-padding-right = 2
+;padding-right = 2
 
 font-0 = Iosevka:style=Regular:pixelsize=10;2
 font-1 = FontAwesome:style=Regular:pixelsize=10;1
+font-2 = Iosevka:style=Regular:pixelsize=16;3
 
 modules-left = info-hackspeed
 modules-center = info-kernel
-modules-right = filesystem memory cpu temperature wlan eth 
-module-margin-left = 1
-module-margin-right = 2
+modules-right = arrow1 filesystem padding1 arrow2 memory padding2 arrow3 cpu padding3 arrow4 temperature padding4 arrow5 wlan eth padding5
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -119,8 +126,8 @@ type = internal/fs
 interval = 25
 
 mount-0 = /
-
 label-mounted = %{F${colors.secondary}%mountpoint%%{F-}: %percentage_used%%
+label-mounted-background = ${colors.bottom-module-left1}
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
 
@@ -223,18 +230,20 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = ""
-format-prefix-foreground = ${colors.foreground-alt}
+format-prefix = " cpu "
+format-prefix-foreground = ${colors.bottom-modules-foreground}
 format-underline = 
+format-background = ${colors.bottom-module-left3}
 label = %percentage:2%%
 
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = 
 label = %percentage_used%%
+
+format-prefix = " mem "
+format-prefix-foreground = ${colors.bottom-modules-foreground}
+format-background = ${colors.bottom-module-left2}
 
 [module/wlan]
 type = internal/network
@@ -242,8 +251,11 @@ interface = wlp0s20f0u10
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
-format-connected-underline = 
+format-connected-underline =
 label-connected = %essid%
+
+;content-background = ${colors.bottom-module-left5} 
+format-connected-background = ${colors.bottom-module-left5} 
 
 ;format-disconnected =
 format-disconnected = <label-disconnected>
@@ -253,11 +265,6 @@ label-disconnected = <ramp-signal>
 label-disconnected-foreground = ${colors.foreground-alt}
 
 ramp-signal-0 =  
-;ramp-signal-1 = 
-;ramp-signal-2 = 
-;ramp-signal-3 = 
-;ramp-signal-4 = 
-;ramp-signal-foreground = ${colors.foreground-alt}
 ramp-signal-foreground = #FFFFFF
 
 [module/eth]
@@ -389,19 +396,15 @@ thermal-zone = 0
 warn-temperature = 60
 interval = 0.5
 
-;format = <ramp> <label>
 format = <label>
+format-prefix = " temp "
 format-warn = <label-warn>
 format-warn-underline = #FF0000
+format-background = ${colors.bottom-module-left4}
 
 label = %temperature-c%
 label-warn = %temperature-c%
 label-warn-foreground = ${colors.secondary}
-
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-foreground = ${colors.foreground-alt}
 
 [module/powermenu]
 type = custom/menu
@@ -453,6 +456,68 @@ interval = 10
 type = custom/script
 exec = uname -r
 interval = 1024
+
+[module/arrow1]
+;Remover paddings e adicioar aos componentes de arrow quando for possível usar variáveis do config no %{F}
+;https://github.com/polybar/polybar/wiki/Formatting
+type = custom/text
+content = "%{T3} %{T-}"
+content-foreground = ${colors.bottom-module-left1}
+content-background = ${colors.background} 
+
+[module/padding1]
+type = custom/text
+content = "   "
+content-background = ${colors.bottom-module-left1}
+
+[module/arrow2]
+; grey to Blue
+type = custom/text
+content = "%{T3} %{T-}"
+content-foreground = ${colors.bottom-module-left2}
+content-background = ${colors.bottom-module-left1}
+
+[module/padding2]
+type = custom/text
+content = "   "
+content-background = ${colors.bottom-module-left2}
+
+[module/arrow3]
+; grey to Blue
+type = custom/text
+content = "%{T3} %{T-}"
+content-foreground = ${colors.bottom-module-left3}
+content-background = ${colors.bottom-module-left2}
+
+[module/padding3]
+type = custom/text
+content = "   "
+content-background = ${colors.bottom-module-left3}
+
+[module/arrow4]
+; grey to Blue
+type = custom/text
+content = "%{T3} %{T-}"
+content-font-size = 12
+content-foreground = ${colors.bottom-module-left4}
+content-background = ${colors.bottom-module-left3} 
+
+[module/padding4]
+type = custom/text
+content = "   "
+content-background = ${colors.bottom-module-left4}
+
+[module/arrow5]
+; grey to Blue
+type = custom/text
+content = "%{T3} %{T-}"
+content-foreground = ${colors.bottom-module-left5}
+content-background = ${colors.bottom-module-left4} 
+
+[module/padding5]
+type = custom/text
+content = "  "
+content-background = ${colors.bottom-module-left5}
 
 [settings]
 screenchange-reload = true

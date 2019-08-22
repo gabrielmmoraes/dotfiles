@@ -432,6 +432,10 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
+# Hotkeys de foco
+bindsym $mod+g [class="GitKraken"] focus
+bindsym $mod+c [class="Code"] focus
+
 # Flashfocus para destacar janela em foco
 exec_always --no-startup-id pkill flashfocus; sleep 0.1; flashfocus
 #exec_always --no-startup-id flashfocus

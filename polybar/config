@@ -35,6 +35,7 @@ foreground-alt = #555
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
+temp-warn = #c42d19
 
 [bar/top]
 ;monitor = ${env:MONITOR:HDMI-1}
@@ -398,12 +399,13 @@ interval = 0.5
 format = <label>
 format-prefix = " temp "
 format-warn = <label-warn>
-format-warn-underline = #FF0000
 format-background = ${colors.bottom-module-left4}
+format-warn-prefix = " temp "
+format-warn-background = ${colors.bottom-module-left4}
 
 label = %temperature-c%
 label-warn = %temperature-c%
-label-warn-foreground = ${colors.secondary}
+label-warn-foreground = ${colors.temp-warn} 
 
 [module/powermenu]
 type = custom/menu

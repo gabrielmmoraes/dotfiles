@@ -438,7 +438,6 @@ bindsym $mod+c [class="Code"] focus
 
 # Flashfocus para destacar janela em foco
 exec_always --no-startup-id pkill flashfocus; sleep 0.1; flashfocus
-#exec_always --no-startup-id flashfocus
 
 # Ativando programa para tornar janelas transparentes
 exec_always --no-startup-id pkill compton; sleep 0.1; compton -bs
@@ -458,3 +457,6 @@ exec spotify
 exec discord
 exec steam
 exec gitkraken
+
+# Binds de programa
+bindsym $mod+F4 exec code 

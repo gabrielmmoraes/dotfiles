@@ -453,4 +453,7 @@ exec steam
 exec gitkraken
 
 # Binds de programa
-bindsym $mod+F4 exec code 
+bindsym $mod+F4 exec code
+
+#Mudar workspace para outro monitor
+bindsym $mod+l move workspace to output left

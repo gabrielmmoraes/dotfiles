@@ -61,8 +61,8 @@ bindsym $mod+F2 exec firefox
 bindsym $mod+F3 exec termite -e ranger
 bindsym $mod+Shift+F3 exec gksu pcmanfm
 bindsym $mod+F5 exec terminal -e 'mocp'
-bindsym $mod+t exec --no-startup-id pkill compton
-bindsym $mod+Ctrl+t exec --no-startup-id compton -b
+bindsym $mod+t exec --no-startup-id pkill picom
+bindsym $mod+Ctrl+t exec --no-startup-id picom -b
 bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
 bindsym Print exec --no-startup-id flameshot gui
 #bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
@@ -435,7 +435,7 @@ bindsym $mod+c [class="Code"] focus
 exec_always --no-startup-id pkill flashfocus; sleep 0.1; flashfocus
 
 # Ativando programa para tornar janelas transparentes
-exec_always --no-startup-id pkill compton; sleep 0.1; compton -bs
+    exec_always --no-startup-id pkill picom; sleep 0.1; picom -bs
 
 # Mostrar tela em foco
 bindsym $mod+Shift+f exec --no-startup-id flash_window
@@ -450,7 +450,7 @@ exec_always $HOME/.config/polybar/launch.sh
 exec firefox
 exec spotify
 exec discord
-exec steam
+exec optirun steam
 exec gitkraken
 
 # Binds de programa

@@ -4,15 +4,15 @@ echo "Instalando dependências..."
 yay -S git firefox google-chrome discord pulseaudio pavucontrol \
     flashfocus python3 visual-studio-code-bin flameshot spotify \
     gitkraken steam ttf-font-awesome-4 powerline termite polybar \
-    ttf-iosevka zsh rofi
+    ttf-iosevka zsh rofi picom
 
 echo "Copiando config do i3wm"
 rm  ~/.i3/config
 ln -s ~/git/dotfiles/i3/config ~/.i3/config
 
-echo "Copiando config do compton"
-rm  ~/.config/compton.conf
-ln -s ~/git/dotfiles/compton/compton.conf ~/.config/compton.conf
+echo "Copiando config do picom"
+rm  ~/.config/picom.conf
+ln -s ~/git/dotfiles/picom/picom.conf ~/.config/picom.conf
 
 echo "Copiando diretório do dunst"
 rm -rf ~/.config/dunst

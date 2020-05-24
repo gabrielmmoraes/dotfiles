@@ -444,14 +444,14 @@ exec = python $HOME/.config/polybar/custom-plugins/polybar-spotify/spotify_statu
 [module/info-hackspeed]
 ;https://github.com/polybar/polybar-scripts/tree/master/polybar-scripts/info-hackspeed
 type = custom/script
-exec = ~/.config/polybar/polybar-scripts/polybar-scripts/info-hackspeed/info-hackspeed.sh
+exec = ~/.config/polybar/custom-plugins/polybar-scripts/info-hackspeed/info-hackspeed.sh
 tail = true
 
 [module/info-softwarecounter]
 ;Needs some tweaks before usage
 ;https://github.com/polybar/polybar-scripts/tree/master/polybar-scripts/info-softwarecounter
 type = custom/script
-exec = ~/.config/polybar/polybar-scripts/polybar-scripts/info-softwarecounter/info-softwarecounter.py
+exec = ~/.config/polybar/custom-plugins/polybar-scripts/info-softwarecounter/info-softwarecounter.py
 interval = 10
 
 [module/info-kernel]

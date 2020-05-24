@@ -3,7 +3,7 @@
 echo "Instalando dependências..."
 yay -S git firefox google-chrome discord pulseaudio pavucontrol \
     flashfocus python3 visual-studio-code-bin flameshot spotify \
-    gitkraken steam ttf-font-awesome-4 powerline termite polybar /
+    gitkraken steam ttf-font-awesome-4 powerline termite polybar \
     ttf-iosevka zsh rofi
 
 echo "Copiando config do i3wm"
@@ -39,18 +39,35 @@ mkdir ~/.config/polybar/custom-plugins
 
 git clone https://github.com/polybar/polybar-scripts.git
 rm -rf ~/.config/polybar/custom-plugins/polybar-scripts
-mv ./polybar-scripts ~/.config/polybar/custom-plugins
-chmod +x ~/.config/polybar/polybar-scripts/polybar-scripts/info-hackspeed/info-hackspeed.sh
+mv ./polybar-scripts/polybar-scripts ~/.config/polybar/custom-plugins/polybar-scripts
+chmod +x ~/.config/polybar/custom-plugins/polybar-scripts/info-hackspeed/info-hackspeed.sh
+rm -rf ./polybar-scripts
 
 git clone https://github.com/Jvanrhijn/polybar-spotify.git
 rm -rf ~/.config/polybar/custom-plugins/polybar-spotify
-mv ./polybar-spotify ~/.config/polybar/custom-plugins
+mv ./polybar-spotify ~/.config/polybar/custom-plugins/
 
 echo "Mudando browser para firefox"
 rm ~/.profile
 ln ~/git/dotfiles/.profiles ~/.profile
 
-echo "Mudando shell para zsh"
-chsh -s /bin/zsh
+echo "Instalando pywal"
+pip3 install pywal
+
+if [ "$SHELL" != "/bin/zsh"  ]; then
+	echo "Mudando shell para zsh"
+	chsh -s /bin/zsh
+fi
+
+echo "Copiando .vimrc"
+rm ~/.vimrc
+ln ~/git/dotfiles/.vimrc ~/.vimrc
+
+echo "Instalando oh-my-zsh"
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+echo "Copiando .zshrc"
+rm ~/.zshrc
+ln ~/git/dotfiles/.zshrc ~/.zshrc
 
 echo "Finalizado"

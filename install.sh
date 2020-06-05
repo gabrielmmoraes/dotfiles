@@ -4,7 +4,7 @@ echo "Instalando dependências..."
 yay -S git firefox google-chrome discord pulseaudio pavucontrol \
     flashfocus python3 visual-studio-code-bin flameshot spotify \
     gitkraken steam ttf-font-awesome-4 powerline termite polybar \
-    ttf-iosevka zsh rofi picom npm go feh yarn
+    ttf-iosevka zsh rofi picom npm go feh yarn cmake
 
 echo "Copiando config do i3wm"
 rm  ~/.i3/config
@@ -70,10 +70,18 @@ echo "Copiando .zshrc"
 rm ~/.zshrc
 ln -s ~/git/dotfiles/.zshrc ~/.zshrc
 
+echo "Instalando Vundle para plugins do vim"
+rm -rf ~/.vim/bundle/Vundle.vim
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
 echo "Instalando YouCompleteMe (vim)"
 cd ~/.vim/bundle
 git clone https://github.com/ycm-core/YouCompleteMe.git
 cd YouCompleteMe
+git submodule update --init --recursive
 python3 install.py --all
+
+echo "Instalando plugins do vim"
+vim +PluginInstall +qall
 
 echo "Finalizado"

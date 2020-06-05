@@ -4,7 +4,7 @@ echo "Instalando dependências..."
 yay -S git firefox google-chrome discord pulseaudio pavucontrol \
     flashfocus python3 visual-studio-code-bin flameshot spotify \
     gitkraken steam ttf-font-awesome-4 powerline termite polybar \
-    ttf-iosevka zsh rofi picom
+    ttf-iosevka zsh rofi picom npm go
 
 echo "Copiando config do i3wm"
 rm  ~/.i3/config
@@ -69,5 +69,11 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 echo "Copiando .zshrc"
 rm ~/.zshrc
 ln ~/git/dotfiles/.zshrc ~/.zshrc
+
+echo "Instalando YouCompleteMe (vim)"
+cd ~/.vim/bundle
+git clone https://github.com/ycm-core/YouCompleteMe.git
+cd YouCompleteMe
+python3 install.py --all
 
 echo "Finalizado"

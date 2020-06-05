@@ -8,13 +8,14 @@ Plugin 'VundleVim/Vundle.vim'               "Plugin manager
 Plugin 'morhetz/gruvbox'                    "Colorscheme
 Plugin 'leafgarland/typescript-vim'         "Plugin for typescript
 Plugin 'scrooloose/nerdtree'                "File tree
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plugin 'vim-airline/vim-airline'            "Linha de comando
+Plugin 'vim-airline/vim-airline-themes'     "Temas para linha de comando
 Plugin 'itchyny/vim-gitbranch'              "Mostra branch atual
 Plugin 'tpope/vim-fugitive'                 "Integração com git
 Plugin 'amix/open_file_under_cursor.vim'    "Abrir arquivo no path selecionado
 Plugin 'tpope/vim-commentary'               "Plugin para comentários
 Plugin 'dense-analysis/ale'                 "Plugin para linter
+Plugin 'ycm-core/YouCompleteMe'             "Autocompleter
 
 call vundle#end()
 filetype plugin indent on

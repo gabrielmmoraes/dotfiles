@@ -436,13 +436,14 @@ bindsym $mod+c [class="Code"] focus
 exec_always --no-startup-id pkill flashfocus; sleep 0.1; flashfocus
 
 # Ativando programa para tornar janelas transparentes
-    exec_always --no-startup-id pkill picom; sleep 0.1; picom -bs
+exec_always --no-startup-id pkill picom; sleep 0.1; picom -bs
 
 # Mostrar tela em foco
 bindsym $mod+Shift+f exec --no-startup-id flash_window
 
 # Papel de parede
-exec_always wal -i ~/Pictures/wallpapers/floresta_vermelha.jpg
+# exec_always wal -i ~/Pictures/wallpapers/floresta_vermelha.jpg
+exec_always --no-startup-id feh --bg-fill ~/Pictures/wallpapers/floresta_vermelha.jpg 
 
 # Polybar
 exec_always $HOME/.config/polybar/launch.sh

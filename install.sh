@@ -68,7 +68,7 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 
 echo "Copiando .zshrc"
 rm ~/.zshrc
-ln ~/git/dotfiles/.zshrc ~/.zshrc
+ln -s ~/git/dotfiles/.zshrc ~/.zshrc
 
 echo "Instalando YouCompleteMe (vim)"
 cd ~/.vim/bundle

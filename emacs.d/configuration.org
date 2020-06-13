@@ -1,0 +1,378 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Gabriel Mendes de Moraes
+#+EMAIL: gabrielm.moraes@poli.ufrj.br
+#+OPTIONS: toc:nil num:nil
+
+    Org file with my Emacs setup, organized into sections.
+
+* Important Hotkeys
+
+*** Projectile
+    - =C-x p h= to open a project menu, or a buffer list + searcher if inside a project frame
+    - =C-x p f= to search for a file inside a project
+    - =C-x p p= to create a frame for another project
+    - =C-x p q= to switch to another project's frame
+
+*** Helm
+    - =M-x= to open Helm-M-x
+    - =C-x C-b= to open Helm mini (lists active buffers, and recently opened files)
+    - =C-x r b= to set a bookmark
+    - =C-x C-f= to search for a file on the PC
+
+* Variables
+
+    Setting up variables for usage in Configuration
+
+#+BEGIN_SRC emacs-lisp
+    (setq home (concat "/home/" (eval user-login-name)))
+    (setq project-folder (concat home "/git/"))
+    (setq backup-folder (concat home "/.emacs.d/backup-files/"))
+#+END_SRC
+
+* Misc configurations
+
+    Ensure to always compile and use updated packages:
+
+#+BEGIN_SRC emacs-lisp
+    (use-package auto-compile
+        :ensure t
+        :config (auto-compile-on-load-mode))
+    (setq load-prefer-newer t)
+#+END_SRC
+
+    Setting Emacs default backup folder (still not sure it's use):
+
+#+BEGIN_SRC emacs-lisp
+    (setq backup-directory-alist '(("." . 'backup-folder)))
+#+END_SRC
+
+* Themes and UI
+
+*** Fonts and tabbings
+
+#+BEGIN_SRC emacs-lisp
+    (setq default-font "Iosevka")
+    (setq default-font-size 10)
+    (setq current-font-size default-font-size)
+    (setq-default tab-width 4)
+#+END_SRC
+
+*** Doom-Themes
+
+    Setting up Emacs main theme
+
+#+BEGIN_SRC emacs-lisp
+    (use-package doom-themes
+        :ensure t
+        :config (load-theme 'doom-gruvbox))
+#+END_SRC
+
+*** Doom-Modeline
+
+    Styling the Modeline
+
+#+BEGIN_SRC emacs-lisp
+    (use-package doom-modeline
+        :ensure t
+        :hook (after-init . doom-modeline-mode)
+        :config (setq doom-modeline-major-mode-icon t
+                    doom-modeline-buffer-encoding nil
+                    doom-modeline-continuous-word-count-modes '(markdown-mode org-mode)
+                    doom-modeline-project-detection 'project
+                    doom-modeline-minor-modes t)
+                (minions-mode 1))
+#+END_SRC
+
+*** All-The-Icons
+
+    Getting icons
+
+#+BEGIN_SRC emacs-lisp
+    (use-package all-the-icons
+        :ensure t)
+#+END_SRC
+
+*** Dashboard
+
+    Adding a nice startup screen
+
+#+BEGIN_SRC emacs-lisp
+    (use-package dashboard
+        :ensure t
+        :config
+        (setq dashboard-startup-banner (concat home "/.emacs.d/discipline.png"))
+        (setq dashboard-set-heading-icons t)
+        (setq dashboard-set-file-icons t)
+        (setq dashboard-items '((bookmarks . 5)
+                            (projects . 5)
+                            (recents  . 5)
+                            (registers . 5)))
+        (dashboard-setup-startup-hook))
+#+END_SRC
+
+*** Treemacs
+
+    Nice sidebar for file navigation
+
+#+BEGIN_SRC emacs-lisp
+    (use-package treemacs
+        :ensure t
+        :defer t
+        :config
+        (setq treemacs-is-never-other-windows t
+            treemacs-show-hidden-files nil)
+        :bind
+        (:map global-map
+            ("M-0"       . treemacs-select-window)
+            ("C-x t 1"   . treemacs-delete-other-windows)
+            ("C-x t t"   . treemacs)
+            ("C-x t B"   . treemacs-bookmark)
+            ("C-x t C-t" . treemacs-find-file)
+            ("C-x t M-t" . treemacs-find-tag)))
+
+    
+    (use-package treemacs-projectile
+        :after treemacs projectile
+        :ensure t)
+#+END_SRC
+
+*** Centaur Tabs
+
+    Adding tabs to Emacs
+
+#+BEGIN_SRC emacs-lisp
+    (use-package centaur-tabs
+        :ensure t
+        :demand
+        :config
+            (centaur-tabs-mode +1)
+            (centaur-tabs-headline-match)
+            (setq centaur-tabs-set-modified-marker t
+                centaur-tabs-modified-marker "●"
+                centaur-tabs-gray-out-icons 'buffer
+                centaur-tabs-cycle-scope 'tabs
+                centaur-tabs-height 30
+                centaur-tabs-set-icons t
+                centaur-tabs-close-button "x"
+                centaur-tabs-style "wave")
+            (centaur-tabs-group-by-projectile-project)
+        :bind
+            ("C-<tab>" . centaur-tabs-forward)
+            ("C-w" . kill-buffer))
+#+END_SRC
+
+*** Other UI configs
+
+#+BEGIN_SRC emacs-lisp
+    (setq inhibit-startup-message t)
+    (tool-bar-mode -1)
+    (menu-bar-mode -1)
+    (scroll-bar-mode -1)
+#+END_SRC
+
+* Emacs tools
+
+*** Evil Mode
+
+    Vim mode for Emacs.
+
+#+BEGIN_SRC emacs-lisp
+    (setq evil-want-abbrev-expand-on-insert-exit nil)
+
+    (use-package evil
+        :ensure t
+        :hook (after-init . evil-mode)
+        :config
+        (setq evil-emacs-state-mode nil)
+        (evil-set-initial-state 'dashboard-mode 'emacs)
+        :bind
+        ("C-s" . evil-write))
+#+END_SRC
+
+
+*** Which-Key
+
+    Bottom menu that shows key binds as you enter an incomplete command.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package which-key
+        :ensure t
+        :config (which-key-mode))
+#+END_SRC
+
+*** Helm
+
+    Multi funcional package.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package helm
+        :ensure t
+        :config
+        (helm-autoresize-mode 1)
+        (setq helm-autoresize-min-height 25)
+        (setq helm-autoresize-max-height 35)
+        (helm-mode 1)
+        :bind (("C-x C-b" . helm-mini)
+                ("M-x" . helm-M-x)
+                ("C-x r b" . helm-filtered-bookmarks)
+                ("C-x C-f" . helm-find-files)))
+#+END_SRC
+
+*** Projectile
+
+    Project management and navigation.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package projectile
+        :ensure t
+        :config
+        (setq projectile-project-search-path (list project-folder))
+        (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
+        (projectile-mode 1))
+
+    ;; Setting frame title to match current active project
+    (setq frame-title-format '((:eval (projectile-project-name))))
+#+END_SRC
+
+*** Helm Projectile
+
+    Helm and Projectile integration.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package helm-projectile
+        :ensure t
+        :init (helm-projectile-on))
+#+END_SRC
+
+*** Minions
+
+    Show current active minor modes.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package minions
+        :ensure t
+        :config
+        (minions-mode 1))
+#+END_SRC
+
+
+* Development Tools
+
+*** Expand Region
+
+    Package that helps selection based on delimiters (", {, (, etc.).
+
+#+BEGIN_SRC emacs-lisp
+    (use-package expand-region
+        :ensure t
+        :bind
+            ("C-=" . er/expand-region)
+            ("C--" . er/contract-region))
+#+END_SRC
+
+*** Company
+
+    Code completion.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package company
+        :ensure t
+        :defer t
+        :init (global-company-mode)
+        :config
+        (setq company-transformers '(company-sort-by-occurrence)
+            case-replace nil
+            case-fold-search nil)
+        :bind
+            ("C-SPC" . company-complete))
+    
+    ;; Enabling fuzzy match
+    (use-package company-flx
+        :after (company)
+	    :config	(company-flx-mode +1))
+#+END_SRC
+
+*** Yasnippet
+
+    Adding a powerful snippet tool for developing.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package yasnippet
+        :ensure t
+        :config
+        (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+        (yas-global-mode 1))
+#+END_SRC
+
+*** NLinum
+
+    Relative line numbering.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package nlinum-relative
+        :ensure t
+        :hook (prog-mode . nlinum-relative-mode)
+        :config (setq nlinum-relative-redisplay-delay 0))
+#+END_SRC
+
+*** Highlight Ident Guides
+
+    Highlighting identation on prog-mode.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package highlight-indent-guides
+        :ensure t
+        :config
+        (setq highlight-indent-guides-method 'character)
+        (setq highlight-indent-guides-character ?\|)
+        :hook (prog-mode . highlight-indent-guides-mode))
+#+END_SRC
+
+* Utils
+
+*** Font resizing
+
+#+BEGIN_SRC emacs-lisp
+    (setq font-change-increment 1.1)
+
+    (defun font-code ()
+        "Return a string representing the current font (like \"Inconsolata-14\")."
+        (concat default-font "-" (number-to-string current-font-size)))
+
+    (defun set-font-size ()
+        "Set the font to `default-font' at `current-font-size'.
+        Set that for the current frame, and also make it the default for
+        other, future frames."
+        (let ((font-code (font-code)))
+            (add-to-list 'default-frame-alist (cons 'font font-code))
+            (set-frame-font font-code)))
+
+    (defun reset-font-size ()
+        "Change font size back to `default-font-size'."
+        (interactive)
+        (setq current-font-size default-font-size)
+        (set-font-size))
+
+        (defun increase-font-size ()
+        "Increase current font size by a factor of `font-change-increment'."
+        (interactive)
+        (setq current-font-size
+            (ceiling (* current-font-size font-change-increment)))
+        (set-font-size))
+
+    (defun decrease-font-size ()
+        "Decrease current font size by a factor of `font-change-increment', down to a minimum size of 1."
+        (interactive)
+        (setq current-font-size
+        (max 1
+            (floor (/ current-font-size font-change-increment))))
+        (set-font-size))
+
+    (define-key global-map (kbd "C-)") 'reset-font-size)
+    (define-key global-map (kbd "C-+") 'increase-font-size)
+    (define-key global-map (kbd "C-=") 'increase-font-size)
+    (define-key global-map (kbd "C-_") 'decrease-font-size)
+    (define-key global-map (kbd "C--") 'decrease-font-size)
+
+    (reset-font-size)
+#+END_SRC

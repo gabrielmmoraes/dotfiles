@@ -59,16 +59,16 @@ if [ "$SHELL" != "/bin/zsh"  ]; then
 	chsh -s /bin/zsh
 fi
 
-echo "Copiando .vimrc"
-rm ~/.vimrc
-ln ~/git/dotfiles/.vimrc ~/.vimrc
-
 echo "Instalando oh-my-zsh"
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 echo "Copiando .zshrc"
 rm ~/.zshrc
 ln -s ~/git/dotfiles/.zshrc ~/.zshrc
+
+echo "Copiando .vimrc"
+rm ~/.vimrc
+ln ~/git/dotfiles/.vimrc ~/.vimrc
 
 echo "Instalando Vundle para plugins do vim"
 rm -rf ~/.vim/bundle/Vundle.vim
@@ -83,5 +83,9 @@ python3 install.py --all
 
 echo "Instalando plugins do vim"
 vim +PluginInstall +qall
+
+echo "Preparando Emacs"
+rm -rf ~/.emacs.d
+ln -s ~/git/dotfiles/emacs.d/ ~/.emacs.d
 
 echo "Finalizado"

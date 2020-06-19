@@ -62,6 +62,10 @@ fi
 echo "Instalando oh-my-zsh"
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+echo "Instalando plugin de sugestão de comandos para o zsh"
+git clone https://github.com/zsh-users/zsh-autosuggestions\
+    ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
 echo "Copiando .zshrc"
 rm ~/.zshrc
 ln -s ~/git/dotfiles/.zshrc ~/.zshrc

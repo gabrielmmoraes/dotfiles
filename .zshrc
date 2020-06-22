@@ -101,3 +101,4 @@ source /usr/share/nvm/init-nvm.sh
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh
 
 export BROWSER="/usr/bin/firefox"
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

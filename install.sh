@@ -5,7 +5,7 @@ yay -S git firefox google-chrome discord pulseaudio pavucontrol \
     flashfocus python3 visual-studio-code-bin flameshot spotify \
     gitkraken steam ttf-font-awesome-4 powerline termite polybar \
     ttf-iosevka zsh rofi picom npm go feh yarn cmake playerctl \
-    zsh-syntax-highlighting
+    zsh-syntax-highlighting betterlockscreen
 
 echo "Copiando config do i3wm"
 rm  ~/.i3/config
@@ -92,5 +92,8 @@ vim +PluginInstall +qall
 echo "Preparando Emacs"
 rm -rf ~/.emacs.d
 ln -s ~/git/dotfiles/emacs.d/ ~/.emacs.d
+
+echo "Setando imagem de lockscreen"
+betterlockscreen -u ~/Pictures/wallpapers/floresta_vermelha.jpg
 
 echo "Finalizado"

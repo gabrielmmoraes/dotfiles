@@ -76,6 +76,7 @@ cursor-scroll = ns-resize
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
 height = 25
+radius = 6
 bottom = true 
 fixed-center = true
 
@@ -95,9 +96,9 @@ font-0 = Iosevka:style=Regular:pixelsize=10;2
 font-1 = FontAwesome:style=Regular:pixelsize=10;1
 font-2 = Iosevka:style=Regular:pixelsize=16;3
 
-;modules-left = info-hackspeed
+modules-left = i3 
 ;modules-center = info-kernel
-modules-right = arrow1 padding1 filesystem padding1 arrow2 padding2 memory padding2 arrow3 padding3 cpu padding3 arrow4 padding4 temperature padding4 arrow5 padding5 wlan eth padding5
+modules-right = arrow1 padding1 filesystem padding1 arrow2 padding2 memory padding2 arrow3 padding3 cpu padding3 arrow4 padding4 temperature padding4 arrow5 padding5 date-bottom padding5 wlan eth padding5
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -252,7 +253,8 @@ type = internal/network
 interface = wlp3s0
 interval = 3.0
 
-format-connected = <ramp-signal> <label-connected>
+format-connected = <ramp-signal>
+;format-connected = <ramp-signal> <label-connected> 
 format-connected-underline =
 label-connected = %essid%
 
@@ -264,7 +266,7 @@ format-disconnected = <label-disconnected>
 format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
 label-disconnected = <ramp-signal> 
-label-disconnected-foreground = ${colors.foreground-alt}
+label-disconnected-foreground = ${colors.bottom-module-left5}
 
 ramp-signal-0 =  
 ramp-signal-foreground = #FFFFFF
@@ -299,6 +301,21 @@ time-alt = %H:%M:%S
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = ${colors.primary}
+
+label = %date% %time%
+
+
+[module/date-bottom]
+type = internal/date
+interval = 5
+
+date =
+date-alt = " %Y-%m-%d"
+
+time = %H:%M
+time-alt = %H:%M:%S
+
+format-background = ${colors.bottom-module-left5}
 
 label = %date% %time%
 

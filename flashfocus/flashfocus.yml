@@ -45,8 +45,6 @@ flash-lone-windows: 'on_open_close'
 # windows at full opacity:
 #
 rules:
-   - window-class: Termite
-     default-opacity: 0.9
    - window-class: Spotify
      flash-on-focus: False
    - window-class: discord

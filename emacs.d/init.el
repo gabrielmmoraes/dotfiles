@@ -11,7 +11,6 @@
 ;; Configure package.el to include MELPA.
 (require 'package)
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-(setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
@@ -26,7 +25,10 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(org-babel-load-file "~/.emacs.d/configuration.org")
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+(org-babel-load-file "~/.emacs.d/new_configuration.org")
 
 (provide 'init.el)
 ;;; init.el ends here

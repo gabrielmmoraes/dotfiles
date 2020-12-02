@@ -5,7 +5,7 @@ yay -S git firefox google-chrome discord pulseaudio pavucontrol \
     flashfocus python3 visual-studio-code-bin flameshot spotify \
     gitkraken steam ttf-font-awesome-4 powerline termite polybar \
     ttf-iosevka zsh rofi picom npm go feh yarn cmake playerctl \
-    zsh-syntax-highlighting betterlockscreen
+    zsh-syntax-highlighting betterlockscreen emacs
 
 echo "Copiando config do i3wm"
 rm  ~/.i3/config

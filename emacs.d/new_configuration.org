@@ -1,0 +1,459 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Gabriel Mendes de Moraes
+#+EMAIL: gabrielm.moraes@poli.ufrj.br
+#+OPTIONS: toc:nil num:nil
+
+    Org file with my Emacs setup, organized into sections.
+
+* Important Hotkeys
+
+* Variables
+
+#+BEGIN_SRC emacs-lisp
+    (setq home (concat "/home/" (eval user-login-name)))
+    (setq project-folder (concat home "/git/"))
+#+END_SRC
+
+* Misc configurations
+
+*** Keybindings
+
+#+BEGIN_SRC emacs-lisp
+    (use-package general
+        :ensure t)
+
+    (use-package hydra
+        :ensure t)
+
+    (defhydra hydra-text-scale (global-map "C-+")
+        "scale text"
+        ("j" text-scale-increase "in")
+        ("k" text-scale-decrease "out")
+        ("f" nil "finished" :exit t))
+
+    (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+    (global-unset-key (kbd "C-SPC"))
+    (global-unset-key (kbd "C-/"))
+    (global-unset-key (kbd "C-k"))
+#+END_SRC
+
+* Themes and UI
+
+*** Vanilla Emacs Configs
+
+    # (setq default-font "Iosevka")
+    # (setq default-font-size 10)
+    # (setq current-font-size default-font-size)
+#+BEGIN_SRC emacs-lisp
+    (set-face-attribute 'default nil :font "Iosevka" :height 120)
+    (setq-default tab-width 4)
+    (setq inhibit-startup-message t)
+    (tool-bar-mode -1)
+    (menu-bar-mode -1)
+    (scroll-bar-mode -1)
+    (set-fringe-mode 10)
+#+END_SRC
+
+*** Dashboard
+
+#+BEGIN_SRC emacs-lisp
+    (use-package dashboard
+        :ensure t
+        :config
+        (setq dashboard-startup-banner (concat home "/.emacs.d/discipline.png"))
+        (setq dashboard-set-heading-icons t)
+        (setq dashboard-set-file-icons t)
+        (setq dashboard-items '((bookmarks . 5)
+                            (projects . 5)
+                            (recents  . 5)
+                            (registers . 5)))
+        (dashboard-setup-startup-hook))
+#+END_SRC
+
+*** Doom-Themes
+
+    Setting up Emacs main theme
+
+#+BEGIN_SRC emacs-lisp
+    (use-package doom-themes
+        :ensure t
+        :custom
+        (doom-themes-enable-italic t)
+        (doom-themes-enable-bold t)
+        :config (load-theme 'doom-gruvbox))
+#+END_SRC
+
+*** Rainbow Delimeters
+
+(use-package rainbow-delimeters
+    :hook (prog-mode . rainbow-delimeters-mode))
+
+*** Doom Modeline
+
+#+BEGIN_SRC emacs-lisp
+    (use-package doom-modeline
+        :ensure t
+        :hook (after-init . doom-modeline-mode)
+        :custom (
+			(doom-modeline-height 40)
+			(doom-modeline-buffer-modification-icon nil)))
+#+END_SRC
+
+*** All the Icons
+
+#+BEGIN_SRC emacs-lisp
+    ;; M-x all-the-icons-install-fonts
+    (use-package all-the-icons)
+#+END_SRC
+
+# *** Treemacs
+
+# #+BEGIN_SRC emacs-lisp
+#     (use-package treemacs
+#         :ensure t
+#         :defer t
+#         :config
+#         (setq treemacs-is-never-other-windows t
+#             treemacs-show-hidden-files nil)
+#         :bind
+#         (:map global-map
+#             ("M-0"       . treemacs-select-window)
+#             ("C-x t 1"   . treemacs-delete-other-windows)
+#             ("C-x t t"   . treemacs)
+#             ("C-x t B"   . treemacs-bookmark)
+#             ("C-x t C-t" . treemacs-find-file)
+#             ("C-x t M-t" . treemacs-find-tag)))
+
+    
+#     (use-package treemacs-projectile
+#         :after treemacs projectile
+#         :ensure t)
+# #+END_SRC
+
+*** Centaur Tabs
+
+#+BEGIN_SRC emacs-lisp
+    (use-package centaur-tabs
+        :ensure t
+        :demand
+        :config
+            (centaur-tabs-mode +1)
+            (centaur-tabs-headline-match)
+            (setq centaur-tabs-set-modified-marker t
+                centaur-tabs-modified-marker "●"
+                centaur-tabs-gray-out-icons 'buffer
+                centaur-tabs-cycle-scope 'tabs
+                centaur-tabs-height 30
+                centaur-tabs-set-icons t
+                centaur-tabs-close-button "x"
+                centaur-tabs-style "wave")
+            (centaur-tabs-group-by-projectile-project)
+        :bind
+            ("C-<tab>" . centaur-tabs-forward)
+            ("C-k" . kill-current-buffer))
+#+END_SRC
+
+* Emacs tools
+
+*** Evil
+
+#+BEGIN_SRC emacs-lisp
+    (setq evil-want-abbrev-expand-on-insert-exit nil)
+
+    (use-package evil
+        :ensure t
+        :init
+            (setq evil-want-keybinding nil)
+        :hook (after-init . evil-mode)
+        :config
+            (setq evil-emacs-state-mode nil)
+            (evil-set-initial-state 'dashboard-mode 'emacs)
+            (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+        :bind
+            ("C-s" . evil-write))
+
+    (use-package evil-collection
+        :after evil
+        :config
+            (evil-collection-init))
+#+END_SRC
+
+*** Ivy
+
+#+BEGIN_SRC emacs-lisp
+    (use-package swiper
+        :ensure t)
+
+    (global-unset-key (kbd "C-f"))
+
+    (use-package ivy
+        :ensure t
+        :diminish ivy-mode
+        :hook (after-init . ivy-mode)
+        :bind (("C-f" . swiper)
+                :map ivy-minibuffer-map
+                ("TAB" . ivy-alt-done)	
+                ("C-l" . ivy-alt-done)
+                ("C-j" . ivy-next-line)
+                ("C-k" . ivy-previous-line)
+                :map ivy-switch-buffer-map
+                ("C-k" . ivy-previous-line)
+                ("C-l" . ivy-done)
+                ("C-d" . ivy-switch-buffer-kill)
+                :map ivy-reverse-i-search-map
+                ("C-k" . ivy-previous-line)
+                ("C-d" . ivy-reverse-i-search-kill)))
+		:custom (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+
+    (use-package ivy-rich
+        :init (ivy-rich-mode 1))
+
+    (use-package counsel
+        :ensure t
+        :bind  (("M-x" . counsel-M-x)
+                ("C-x b" . counsel-ibuffer)
+                ("C-x C-f" . counsel-find-file)
+                ("C-r" . counsel-minibuffer-history))
+        :config
+            (setq ivy-initial-inputs-alist nil))
+#+END_SRC
+
+*** Which-Key
+
+    Bottom menu that shows key binds as you enter an incomplete command.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package which-key
+        :ensure t
+        :init (which-key-mode)
+        :diminish which-key-mode
+        :config (setq which-key-idle-delay 0))
+#+END_SRC
+
+*** Helpful
+
+#+BEGIN_SRC emacs-lisp
+    (use-package helpful
+        :ensure t
+        :custom
+            (counsel-describe-function-function #'helpful-callable)
+            (counsel-describe-variable-function #'helpful-variable)
+        :bind
+            ([remap describe-function] . counsel-describe-function)
+            ([remap describe-command] . helpful-command)
+            ([remap describe-variable] . counsel-describe-variable)
+            ([remap describe-key] . helpful-key))
+#+END_SRC
+
+*** Projectile
+
+#+BEGIN_SRC emacs-lisp
+    (use-package projectile
+        :diminish projectile-mode
+        :ensure t
+        :bind-keymap
+            ("C-x p" . projectile-command-map)
+        :custom ((projectile-completion-system 'ivy))
+        :config
+            (setq projectile-project-search-path (list project-folder))
+            (projectile-mode 1))
+        :init
+            (setq projectile-switch-project-action #'projectile-dired)
+
+    ;; Setting frame title to match current active project
+    (setq frame-title-format '((:eval (projectile-project-name))))
+
+    (use-package counsel-projectile
+        :ensure t
+        :config (counsel-projectile-mode))
+#+END_SRC
+
+*** Restart Emacs
+
+
+#+BEGIN_SRC emacs-lisp
+	(use-package restart-emacs
+		:ensure t)
+#+END_SRC
+
+* Development Tools
+
+*** NLinum
+
+    Relative line numbering.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package nlinum-relative
+        :ensure t
+        :hook (prog-mode . nlinum-relative-mode)
+        :config (setq nlinum-relative-redisplay-delay 0))
+#+END_SRC
+
+*** Magit
+
+#+BEGIN_SRC emacs-lisp
+    (use-package magit
+        :ensure t
+        :custom
+        (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+    ;; (use-package evil-magit
+    ;;     :ensure t
+    ;;     :after magit)
+#+END_SRC
+
+*** LSP
+
+#+BEGIN_SRC emacs-lisp
+    (defun ui/lsp-mode-breadcrumb ()
+        (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+        (lsp-headerline-breadcrumb-mode))
+
+    (use-package lsp-mode
+        :ensure t
+        :commands (lsp lsp-deferred)
+        :hook (
+			(web-mode . lsp-deferred)
+			(lsp-mode . ui/lsp-mode-breadcrumb))
+        :init
+            (setq lsp-keymap-prefix "C-c l")
+        :config
+            (lsp-enable-which-key-integration t))
+
+    (use-package lsp-ui
+        :ensure t
+        :hook (lsp-mode . lsp-ui-mode)
+        :config
+            (setq lsp-ui-sideline-enable t)
+            (setq lsp-ui-doc-position 'bottom))
+
+    (use-package lsp-ivy
+        :ensure t
+		:commands lsp-ivy-workspace-symbol)
+		
+	(use-package lsp-treemacs
+		:ensure t
+		:commands lsp-treemacs-errors-list)
+#+END_SRC
+
+*** Flycheck
+
+#+BEGIN_SRC emacs-lisp
+    (use-package flycheck
+        :ensure t
+        :defer t
+        :hook (lsp-mode . flycheck-mode))
+#+END_SRC
+
+*** Company
+
+#+BEGIN_SRC emacs-lisp
+    (use-package company
+        :ensure t
+        :after lsp-mode
+        :hook (prog-mode . company-mode)
+        :bind (:map company-active-map
+                    ("<tab>" . company-complete-selection))
+                (:map lsp-mode-map
+                    ("C-SPC" . company-indent-or-complete-common))
+        :custom
+            (company-minimum-prefix-length 1)
+            (company-idle-delay 0.0))
+
+    (use-package company-box
+        :ensure t
+        :hook (company-mode . company-box-mode))
+
+    ;; Enabling fuzzy match
+    (use-package company-flx
+        :ensure t
+        :after (company)
+	    :config	(company-flx-mode +1))
+#+END_SRC
+
+*** Typescript
+
+#+BEGIN_SRC emacs-lisp
+    ;; npm install -g typescript-language-server
+    (use-package typescript-mode
+        :ensure t
+        :mode "\\.ts$\\'"
+        :hook (typescript-mode . lsp-deferred)
+        :config
+            (setq typescrit-indent-level 4))
+#+END_SRC
+
+*** Web-Mode
+
+#+BEGIN_SRC emacs-lisp
+	(use-package web-mode
+		:ensure t
+		:mode (("\\.js\\'" . web-mode)
+	   		("\\.jsx\\'" . web-mode)
+			("\\.ts\\'" . web-mode)
+			("\\.tsx\\'" . web-mode)
+	   		("\\.html\\'" . web-mode)
+		   	("\\.vue\\'" . web-mode)
+			("\\.json\\'" . web-mode))
+	   :commands web-mode
+	   :config
+		   	(setq company-tooltip-align-annotations t)
+		   	(setq web-mode-markup-indent-offset 2)
+		   	(setq web-mode-css-indent-offset 2)
+		   	(setq web-mode-code-indent-offset 2)
+	   		(setq web-mode-enable-part-face t)
+	   		(setq web-mode-content-types-alist
+		  		'(("jsx" . "\\.js[x]?\\'"))))
+#+END_SRC
+
+*** NERD Commenter
+
+#+BEGIN_SRC emacs-lisp
+    (use-package evil-nerd-commenter
+        :bind ("C-/" . evilnc-comment-or-uncomment-lines))
+#+END_SRC
+
+*** Highlight Ident Guides
+
+#+BEGIN_SRC emacs-lisp
+    (use-package highlight-indent-guides
+        :ensure t
+        :config
+        (setq highlight-indent-guides-method 'character)
+        (setq highlight-indent-guides-character ?\|)
+        :hook (prog-mode . highlight-indent-guides-mode))
+#+END_SRC
+
+# *** Smartparens
+
+# #+BEGIN_SRC emacs-lisp
+#     (use-package smartparens
+#         :ensure t
+#         :hook(prog-mode . smartparens-global-mode)
+#         :config
+#             (setq show-parent-delay 0)
+#             (show-paren-mode 1))
+# #+END_SRC
+
+*** Expand Region
+
+    Package that helps selection based on delimiters (", {, (, etc.).
+
+#+BEGIN_SRC emacs-lisp
+    (use-package expand-region
+        :ensure t
+        :bind
+            ("C-=" . er/expand-region)
+            ("C--" . er/contract-region))
+#+END_SRC
+
+*** Prettier
+
+#+BEGIN_SRC emacs-lisp
+    (use-package prettier
+        :ensure t
+        :hook
+        ((typescript-mode json-mode) . prettier-mode))
+#+END_SRC
+
+* Utils

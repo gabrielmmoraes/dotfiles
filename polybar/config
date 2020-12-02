@@ -272,7 +272,7 @@ ramp-signal-foreground = #FFFFFF
 [module/eth]
 ;PC ProntLife
 type = internal/network
-interface = enp0s31f6
+interface = enp2s0
 interval = 3.0
 
 format-connected-background = ${colors.bottom-module-left5}

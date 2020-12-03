@@ -80,7 +80,7 @@
         :custom
         (doom-themes-enable-italic t)
         (doom-themes-enable-bold t)
-        :config (load-theme 'doom-gruvbox))
+        :config (load-theme 'doom-snazzy))
 #+END_SRC
 
 *** Rainbow Delimeters
@@ -190,7 +190,7 @@
         :ensure t
         :diminish ivy-mode
         :hook (after-init . ivy-mode)
-        :bind (("C-f" . swiper)
+        :bind (("M-f" . swiper)
                 :map ivy-minibuffer-map
                 ("TAB" . ivy-alt-done)	
                 ("C-l" . ivy-alt-done)
@@ -203,7 +203,7 @@
                 :map ivy-reverse-i-search-map
                 ("C-k" . ivy-previous-line)
                 ("C-d" . ivy-reverse-i-search-kill)))
-		:custom (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+		:custom (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)(swiper . ivy--regex-plus)))
 
     (use-package ivy-rich
         :init (ivy-rich-mode 1))
@@ -398,9 +398,9 @@
 	   :commands web-mode
 	   :config
 		   	(setq company-tooltip-align-annotations t)
-		   	(setq web-mode-markup-indent-offset 2)
-		   	(setq web-mode-css-indent-offset 2)
-		   	(setq web-mode-code-indent-offset 2)
+		   	(setq web-mode-markup-indent-offset 4)
+		   	(setq web-mode-css-indent-offset 4)
+		   	(setq web-mode-code-indent-offset 4)
 	   		(setq web-mode-enable-part-face t)
 	   		(setq web-mode-content-types-alist
 		  		'(("jsx" . "\\.js[x]?\\'"))))
@@ -453,7 +453,7 @@
     (use-package prettier
         :ensure t
         :hook
-        ((typescript-mode json-mode) . prettier-mode))
+        ((typescript-mode json-mode web-mode) . prettier-mode))
 #+END_SRC
 
 * Utils

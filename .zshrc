@@ -102,4 +102,11 @@ source /usr/share/nvm/init-nvm.sh
 
 export BROWSER="/usr/bin/firefox"
 export PATH="$(yarn global bin):$PATH"
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

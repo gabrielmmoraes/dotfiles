@@ -1,12 +1,12 @@
 #!/bin/bash
 
 echo "Instalando dependências..."
-yay -S git firefox google-chrome discord pulseaudio pavucontrol \
+yay -S base-devel git firefox google-chrome discord pulseaudio pavucontrol \
     flashfocus python3 visual-studio-code-bin flameshot spotify \
     gitkraken steam ttf-font-awesome-4 powerline termite polybar \
     ttf-iosevka zsh rofi picom npm go feh yarn cmake playerctl \
     zsh-syntax-highlighting betterlockscreen emacs the_silver_searcher \
-    ripgrep
+    ripgrep python-pip nerd-fonts-complete nvm
 
 echo "Copiando config do i3wm"
 rm  ~/.i3/config
@@ -23,6 +23,9 @@ ln -s ~/git/dotfiles/dunst/ ~/.config/dunst
 echo "Copiando diretório do Polybar"
 rm -rf ~/.config/polybar
 ln -s ~/git/dotfiles/polybar/ ~/.config/polybar
+
+echo "Instalando dbus-python para plugin do Spotify"
+pip3 install dbus-python
 
 echo "Copiando diretório do FlashFocus"
 rm -rf ~/.config/flashfocus
